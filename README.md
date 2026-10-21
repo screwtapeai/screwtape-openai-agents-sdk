@@ -42,7 +42,7 @@ The judge returns `verdict`, `score` (0 to 1), `reasons`, `engine` (`llm`, `dete
 When receipt signing is on, every `/v1/judge` and `/v1/consensus` response also carries a `receipt` object. The fields are `receipt_id`, `issued_at`, `endpoint`, `request_sha256` (SHA-256 of the normalized request), `verdict`, `score`, `payment`, `alg` (`Ed25519`), `kid` and `signature`. For consensus, `verdict` is `false_consensus_risk` and `score` is `agreement_score`. `payment` shows the key prefix or the x402 transaction, never the key.
 
 - Public keys: https://screwtape.ai/.well-known/screwtape-receipt-keys.json (JWKS-style Ed25519)
-- Verify: `POST https://screwtape.ai/v1/receipts/verify` with the receipt JSON. The response is `{"valid": true}` or `{"valid": false}`. No key is needed and the receipt isn't stored.
+- Verify: `POST https://screwtape.ai/v1/receipts/verify` with the raw `receipt` object as the request body, exactly as returned (not wrapped in `{"receipt": ...}`). The response is `{"valid": true}` or `{"valid": false}`. No key is needed and the receipt isn't stored.
 
 ```python
 from screwtape import judge, verify_receipt
@@ -103,8 +103,8 @@ Over MCP, an unpaid `tools/call` is HTTP 200 with `isError: true` and the x402 r
 - API reference: https://screwtape.ai/docs/ · OpenAPI: https://screwtape.ai/openapi.json · For agents: https://screwtape.ai/llms.txt
 - MCP server: https://screwtape.ai/mcp (MCP Registry name `ai.screwtape/screwtape`)
 - Pricing: https://screwtape.ai/pricing/ · Free key: https://screwtape.ai/signup/
-- Source for this example: https://github.com/screwtapeai/openai-agents-sdk
-- Issues: https://github.com/screwtapeai/openai-agents-sdk/issues
+- Source for this example: https://github.com/screwtapeai/screwtape-openai-agents-sdk
+- Issues: https://github.com/screwtapeai/screwtape-openai-agents-sdk/issues
 
 ## License
 
